@@ -64,12 +64,12 @@
 
 
   <xacro:macro name="ur10_robot" params="prefix joint_limited
-		 shoulder_pan_lower_limit:=${-pi}    shoulder_pan_upper_limit:=${pi}
-		 shoulder_lift_lower_limit:=${-pi}    shoulder_lift_upper_limit:=${pi}
-		 elbow_joint_lower_limit:=${-pi}    elbow_joint_upper_limit:=${pi}
-		 wrist_1_lower_limit:=${-pi}    wrist_1_upper_limit:=${pi}
-		 wrist_2_lower_limit:=${-pi}    wrist_2_upper_limit:=${pi}
-		 wrist_3_lower_limit:=${-pi}    wrist_3_upper_limit:=${pi}">
+         shoulder_pan_lower_limit:=${-pi}    shoulder_pan_upper_limit:=${pi}
+         shoulder_lift_lower_limit:=${-pi}    shoulder_lift_upper_limit:=${pi}
+         elbow_joint_lower_limit:=${-pi}    elbow_joint_upper_limit:=${pi}
+         wrist_1_lower_limit:=${-pi}    wrist_1_upper_limit:=${pi}
+         wrist_2_lower_limit:=${-pi}    wrist_2_upper_limit:=${pi}
+         wrist_3_lower_limit:=${-pi}    wrist_3_upper_limit:=${pi}">
 
     <link name="${prefix}base_link" >
       <visual>
@@ -291,15 +291,24 @@
     <joint name="${prefix}ee_fixed_joint" type="fixed">
       <parent link="${prefix}wrist_3_link" />
       <child link = "${prefix}ee_link" />
-      <origin xyz="0.0 ${wrist_3_length} 0.0" rpy="0.0 0.0 ${pi/2.0}" />
+      <origin xyz="0.0 ${wrist_3_length+0.01+0.198} 0.0" rpy="${pi/2.0} 0.0 ${pi}" />
     </joint>
 
     <link name="${prefix}ee_link">
+      <visual>
+        <geometry>
+          <mesh filename="package://ur_description/meshes/ur10/visual/gripper.stl" />
+        </geometry>
+        <material name="LightGrey">
+          <color rgba="0.7 0.7 0.7 1.0" />
+        </material>
+        <origin rpy="0 0 0" xyz="0.0 0 -0.198" />
+      </visual>
       <collision>
         <geometry>
-          <box size="0.01 0.01 0.01"/>
+           <mesh filename="package://ur_description/meshes/ur10/visual/gripper.stl" />
         </geometry>
-        <origin rpy="0 0 0" xyz="-0.01 0 0"/>
+        <origin rpy="0 0 0" xyz="0.0 0 -0.198" />
       </collision>
     </link>
 
