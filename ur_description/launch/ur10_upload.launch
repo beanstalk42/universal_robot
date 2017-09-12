@@ -1,7 +1,13 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="limited" default="false"/>
-  
-  <param unless="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur_description)/urdf/ur10_robot.urdf.xacro'" />
-  <param if="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur_description)/urdf/ur10_joint_limited_robot.urdf.xacro'" />
+  <arg name="use_urdf" default="true" />
+
+  <!-- will not load robot_description if urdf AND limited is set  -->
+  <param if="$(arg use_urdf)" name="robot_description" textfile="$(find ur_description)/urdf/ur10_robot.urdf"/> 
+
+  <group unless="$(arg use_urdf)"> 
+    <param unless="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur_description)/urdf/ur10_robot.urdf.xacro'" />
+    <param if="$(arg limited)" name="robot_description" command="$(find xacro)/xacro --inorder '$(find ur_description)/urdf/ur10_joint_limited_robot.urdf.xacro'" />a
+  </group>
 </launch>
